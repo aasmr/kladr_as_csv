@@ -119,9 +119,9 @@ if __name__=='__main__':
                     city_code=code[0:8]+'00000'
                     city_name=data_kladr.loc[data_kladr['CODE']==city_code]['NAME']
                     '''
-                    При паарсинге Республики Башкортостан напоролся на с. Ургала,
+                    При парсинге Республики Башкортостан напоролся на с. Ургала,
                     у которого был код города и код населенного пункта, но поиск по
-                    коду города не дает результатов, в связи с чем введена слелующая
+                    коду города не дает результатов, в связи с чем введена следующая
                     условная конструкция: подобные записи пропускаются
                     '''
                     if len(city_name)==0:
@@ -144,7 +144,17 @@ if __name__=='__main__':
                     #Но в составе района - получаем название района
                     if code[2:5]!='000':
                         dist_code=code[0:5]+'00000000'
-                        dist_name=data_kladr.loc[data_kladr['CODE']==dist_code]['NAME'].values[0]
+                        dist_name=data_kladr.loc[data_kladr['CODE']==dist_code]['NAME']
+                        '''
+                        При парсинге Московской области напоролся на с. Марково,
+                        у которого был код района и код населенного пункта, но поиск по
+                        коду района не дает результатов, в связи с чем введена следующая
+                        условная конструкция: подобные записи пропускаются
+                        '''
+                        if len(dist_name)==0:
+                            continue
+                        else:
+                            dist_name=dist_name.values[0]
                         new_row={'level':'4', 'type':'settlement', 'code':code, 'name':name, 'dist_code':dist_code,
                                  'dist_name':dist_name, 'region_code':reg_code, 'region_name':reg_name}
                     
